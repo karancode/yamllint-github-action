@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 function yaml_lint {
 
     # gather output

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 function parse_inputs {
     
     yamllint_file_or_dir=""

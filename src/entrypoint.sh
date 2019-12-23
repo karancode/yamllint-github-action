@@ -1,9 +1,9 @@
 #!/bin/bash
-set -x
+
 function parse_inputs {
     
     yamllint_file_or_dir=""
-    if [ "${INPUT_YAMLLINT_FILE_OR_DIR}" != "" ] || if [ "${INPUT_YAMLLINT_FILE_OR_DIR}" != "." ]; then
+    if [ "${INPUT_YAMLLINT_FILE_OR_DIR}" != "" ] || [ "${INPUT_YAMLLINT_FILE_OR_DIR}" != "." ]; then
         yamllint_file_or_dir="${INPUT_YAMLLINT_FILE_OR_DIR}"
     fi
 

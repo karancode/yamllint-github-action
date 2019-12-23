@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 function parse_inputs {
     
@@ -39,8 +39,8 @@ function main {
     scriptDir=$(dirname ${0})
     source ${scriptDir}/yaml_lint.sh
     parse_inputs
-
-    yaml_lint
+    
+    #yaml_lint
     
 }
 

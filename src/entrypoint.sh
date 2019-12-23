@@ -13,17 +13,17 @@ function parse_inputs {
     fi
 
     yamllint_config_filepath=''
-    if [ "${INPUT_YAMLLINT_CONFIG_FILEPATH}" != "0" ] || [ "${INPUT_YAMLLINT_CONFIG_FILEPATH}" != "false" ] || [ ! -z "${INPUT_YAMLLINT_CONFIG_FILEPATH}" ]; then
+    if [ ! -z "${INPUT_YAMLLINT_CONFIG_FILEPATH}" ]; then
         yamllint_config_filepath="--config-file ${INPUT_YAMLLINT_CONFIG_FILEPATH}"
     fi
 
     yamllint_config_datapath=''
-    if [ "${INPUT_YAMLLINT_CONFIG_DATAPATH}" != "0" ] || [ "${INPUT_YAMLLINT_CONFIG_DATAPATH}" != "false" ] || [ ! -z "${INPUT_YAMLLINT_CONFIG_DATAPATH}" ]; then
+    if [ ! -z "${INPUT_YAMLLINT_CONFIG_DATAPATH}" ]; then
         yamllint_config_datapath="--config-data ${INPUT_YAMLLINT_CONFIG_DATAPATH}"
     fi
 
     yamllint_format=''
-    if [ "${INPUT_YAMLLINT_FOMRAT}" != "0" ] || [ "${INPUT_YAMLLINT_FORMAT}" != "false" ] || [ ! -z "${INPUT_YAMLLINT_FORMAT}" ]; then
+    if [ ! -z "${INPUT_YAMLLINT_FORMAT}" ]; then
         yamllint_format="--format ${INPUT_YAMLLINT_FORMAT}"
     fi
 

@@ -1,0 +1,38 @@
+# action.yaml
+name: 'Yamllint Github Action'
+author: 'karancode <karanthanvi0@gmail.com>'
+description: 'Github action for Yamllint - manily to liniting yaml files for k8s config'
+branding:
+  icon: 'anchor'
+  color: 'blue'
+inputs:
+  yamllint_file_or_dir:
+    description: 'File or Directory to do yamllint on'
+    required: false
+    default: '.'
+  yamllint_strict:
+    description: 'Use Strict'
+    required: false
+    default: '0'
+  yamllint_config_filepath:
+    description: 'Custom yamllint config path'
+    required: false
+    default: ''         # using default
+  yamllint_config_datapath:
+    description: 'Custom configuration (as YAML source)'
+    required: false
+    default: ''         # using default
+  yamllint_format:
+    description: 'format for parsing output'
+    required: false
+    default: ''         # using default
+  yamllint_comment:
+    description: 'Comment yamllint output'
+    required: false
+    default: '0'
+outputs:
+  yamllint_output:
+    description: 'Output of yamllint'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

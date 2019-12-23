@@ -40,7 +40,7 @@ function main {
     source ${scriptDir}/yaml_lint.sh
     parse_inputs
     
-    #yaml_lint
+    yaml_lint
     
 }
 

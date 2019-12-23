@@ -25,7 +25,7 @@ function yaml_lint {
 
     # comment
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ] && [ "${yamllint_comment}" == "1" ]; then
-        lint_comment_wrapper="#### \`yammlint \` ${lint_comment_status}
+        lint_comment_wrapper="#### \`yamllint\` ${lint_comment_status}
 <details><summary>Show Output</summary>
 \`\`\`
 ${lint_output}

@@ -3,8 +3,8 @@ name: 'Yamllint Github Action'
 author: 'karancode <karanthanvi0@gmail.com>'
 description: 'Github action for Yamllint - manily to liniting yaml files for k8s config'
 branding:
-  icon: 'anchor'
-  color: 'blue'
+  icon: 'sliders'
+  color: 'green'
 inputs:
   yamllint_file_or_dir:
     description: 'File or Directory to do yamllint on'

@@ -8,7 +8,7 @@ function parse_inputs {
     fi
 
     yamllint_strict=''
-    if [ "${INPUT_YAMLLINT_STRICT}" != "0" ] || [ "${INPUT_YAMLLINT_STRICT}" != "false" ]; then
+    if [ "${INPUT_YAMLLINT_STRICT}" == "1" ] || [ "${INPUT_YAMLLINT_STRICT}" == "true" ]; then
         yamllint_strict="--strict"
     fi
 

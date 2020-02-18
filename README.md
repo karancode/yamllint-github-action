@@ -29,7 +29,7 @@ jobs:
           yamllint_strict: false
           yamllint_comment: true
         env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 This was a simplified example showing the basic features of this Yamllint GitHub Actions.
 

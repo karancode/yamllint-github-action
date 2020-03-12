@@ -12,7 +12,7 @@ function parse_inputs {
         yamllint_strict="--strict"
     fi
 
-    yamllint_config_filepath=''
+    yamllint_config_filepath='--config-file config/k8s.yml'
     if [ ! -z "${INPUT_YAMLLINT_CONFIG_FILEPATH}" ]; then
         yamllint_config_filepath="--config-file ${INPUT_YAMLLINT_CONFIG_FILEPATH}"
     fi

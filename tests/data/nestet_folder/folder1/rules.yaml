@@ -1,0 +1,21 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+    creationTimestamp: null
+    labels:
+        app: prometheus-operator
+        release: prometheus-operator
+    name: redis
+    namespace: monitoring
+spec:
+    groups:
+        - name: redis.memory
+          rules:
+              - alerts: RedisMemoryAlmostFull
+                annotations:
+                    messages: 'Redis memory is at {{ $value | humanizePercentage }} of maximum for 2 days in a row'
+                expr: redis_memory_used_bytes/redis_memory_max_bytes > 0.8
+                f0r: 2d
+                labels:
+                    severity: warning

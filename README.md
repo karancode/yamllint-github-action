@@ -59,3 +59,10 @@ Outputs are used to pass information to subsequent GitHub Actions steps.
 Secrets are similar to inputs except that they are encrypted and only used by GitHub Actions. It's a convenient way to keep sensitive data out of the GitHub Actions workflow YAML file.
 
 * `GITHUB_ACCESS_TOKEN` - (Optional) The GitHub API token used to post comments to pull requests. Not required if the `yamllint_comment` input is set to `false`.
+
+## Development
+
+### Testing
+
+For testing the [bats](https://github.com/bats-core/bats-core) testing framework is used.
+Tests can be run with ``./tests/run.bats`` but first you need to install [bats](https://github.com/bats-core/bats-core#installation).

@@ -1,16 +1,19 @@
 # yamllint-github-action
+
 Yamllint GitHub Actions allow you to execute `yamllint` command within GitHub Actions.
 
 The output of the actions can be viewed from the Actions tab in the main repository view. If the actions are executed on a pull request event, a comment may be posted on the pull request.
 
 Yamllint GitHub Actions is a single GitHub Action that can be executed on different directories depending on the content of the GitHub Actions YAML file.
 
-
 ## Success Criteria
+
 An exit code of `0` is considered a successful execution.
 
 ## Usage
-The most common usage is to run `yamllint` on a file/directory. A comment will be posted to the pull request depending on the output of the Yamllint command being executed. This workflow can be configured by adding the following content to the GitHub Actions workflow YAML file. 
+
+The most common usage is to run `yamllint` on a file/directory. A comment will be posted to the pull request depending on the output of the Yamllint command being executed. This workflow can be configured by adding the following content to the GitHub Actions workflow YAML file.
+
 ```yaml
 name: 'Yamllint GitHub Actions'
 on:
@@ -31,9 +34,10 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
 This was a simplified example showing the basic features of this Yamllint GitHub Actions.
 
-# Inputs
+## Inputs
 
 Inputs configure Yamllint GitHub Actions to perform lint action.
 
@@ -43,7 +47,6 @@ Inputs configure Yamllint GitHub Actions to perform lint action.
 * `yamllint_config_datapath` - (Optional) Custom configuration (as YAML source). Defaults to default configs.
 * `yamllint_format` - (Optional) Format for parsing output. Defaults to `auto`.
 * `yamllint_comment` - (Optional) Whether or not to comment on GitHub pull requests. Defaults to `false`.
-
 
 ## Outputs
 

@@ -28,7 +28,11 @@ function parse_inputs {
     fi
 
     yamllint_comment=0
-    if [ "${INPUT_YAMLLINT_COMMENT}" != "0" ] || [ "${INPUT_YAMLLINT_COMMENT}" != "false" ]; then
+    if [[ "${INPUT_YAMLLINT_COMMENT}" == "0" || "${INPUT_YAMLLINT_COMMENT}" == "false" ]]; then
+        yamllint_comment="0"
+    fi
+
+    if [[ "${INPUT_YAMLLINT_COMMENT}" == "1" || "${INPUT_YAMLLINT_COMMENT}" == "true" ]]; then
         yamllint_comment="1"
     fi
 

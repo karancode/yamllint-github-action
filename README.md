@@ -41,12 +41,14 @@ This was a simplified example showing the basic features of this Yamllint GitHub
 
 Inputs configure Yamllint GitHub Actions to perform lint action.
 
-* `yamllint_file_or_dir` - (Optional) The file or directory to run `yamllint` on (assumes that the directory contains *.yaml file). Defaults to `.`.
-* `yamllint_strict` - (Optional) Yamllint strict option. Defaults to `false`.
-* `yamllint_config_filepath` - (Optional) Path to a custom config file. Defaults to default configs.
-* `yamllint_config_datapath` - (Optional) Custom configuration (as YAML source). Defaults to default configs.
-* `yamllint_format` - (Optional) Format for parsing output. Defaults to `auto`.
-* `yamllint_comment` - (Optional) Whether or not to comment on GitHub pull requests. Defaults to `false`.
+| Parameter                    | Default | Description                                                                                                               |
+|------------------------------|---------|---------------------------------------------------------------------------------------------------------|
+| `yamllint_file_or_dir`       | .       | (Optional) The file or directory to run `yamllint` on (assumes that the directory contains *.yaml file) |
+| `yamllint_strict`            | `false` | (Optional) Yamllint strict option.                                  |
+| `yamllint_config_filepath`   | `empty` | (Optional) Path to a custom config file.                            |
+| `yamllint_config_datapath`   | `empty` | (Optional) Custom configuration (as YAML source).                   |
+| `yamllint_format`            | `auto`  | (Optional) Format for parsing.                                      |
+| `yamllint_comment`           | `false` | (Optional) Comment on GitHub pull requests, possible are true,false |
 
 ## Outputs
 

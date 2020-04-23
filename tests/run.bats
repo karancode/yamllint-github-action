@@ -139,48 +139,8 @@ function setup() {
 
   echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
   echo $output | grep -vq "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
-  echo $output | grep -q "lint: info: commenting on the pull request"
-  [[ "${status}" -eq 0 ]]
-}
-
-### enabled - onerror
-@test "INPUT_YAMLLINT_COMMENT: set onerror in PR scenario without lint errors" {
-  INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file2.yml"
-
-  run docker run --rm \
-  -v "$(pwd):/mnt/" \
-  -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
-  -e INPUT_YAMLLINT_COMMENT="onerror" \
-  -e GITHUB_EVENT_PATH="/mnt/tests/GITHUB_EVENT.json" \
-  -e GITHUB_EVENT_NAME="pull_request" \
-  -i $CONTAINER_NAME
-
-  debug "${status}" "${output}" "${lines}"
-
-  echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
-  echo $output | grep -vq "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
   echo $output | grep -vq "lint: info: commenting on the pull request"
   [[ "${status}" -eq 0 ]]
-}
-
-@test "INPUT_YAMLLINT_COMMENT: set onerror in PR scenario with lint errors" {
-  INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file1.yml"
-
-  run docker run --rm \
-  -v "$(pwd):/mnt/" \
-  -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
-  -e INPUT_YAMLLINT_COMMENT="onerror" \
-  -e GITHUB_EVENT_PATH="/mnt/tests/GITHUB_EVENT.json" \
-  -e GITHUB_EVENT_NAME="pull_request" \
-  -i $CONTAINER_NAME
-
-  debug "${status}" "${output}" "${lines}"
-
-  echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
-  echo $output | grep -q "line too long (114 > 80 characters)"
-  echo $output | grep -q "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
-  echo $output | grep -q "lint: info: commenting on the pull request"
-  [[ "${status}" -eq 1 ]]
 }
 
 ### disabled (0,false)

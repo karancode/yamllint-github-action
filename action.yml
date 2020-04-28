@@ -29,7 +29,7 @@ inputs:
   yamllint_comment:
     description: 'Comment yamllint output'
     required: false
-    default: '0'
+    default: 'false'
 outputs:
   yamllint_output:
     description: 'Output of yamllint'

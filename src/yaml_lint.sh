@@ -23,8 +23,8 @@ function yaml_lint {
         echo
     fi
 
-    # comment
-    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ] && [ "${yamllint_comment}" == "1" ]; then
+    # comment if lint failed
+    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ] && [ "${yamllint_comment}" == "1" ] && [ ${lint_exit_code} -ne 0 ]; then
         lint_comment_wrapper="#### \`yamllint\` ${lint_comment_status}
 <details><summary>Show Output</summary>
 

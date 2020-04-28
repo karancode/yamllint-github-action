@@ -1,5 +1,9 @@
 #!/usr/bin/env bats
 
+# NOTE: environment variable GITHUB_EVENT_PATH
+# is required in a pullrequest scenario. If the variable
+# is not set the test the test is gonna hang.
+
 # global variables ############################################################
 CONTAINER_NAME="yamllint-github-action"
 
@@ -91,7 +95,7 @@ function setup() {
   -v "$(pwd):/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="1" \
-  -e GITHUB_EVENT_PATH="/mnt/tests/GITHUB_EVENT.json" \
+  -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
   -i $CONTAINER_NAME
 
@@ -111,7 +115,7 @@ function setup() {
   -v "$(pwd):/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="true" \
-  -e GITHUB_EVENT_PATH="/mnt/tests/GITHUB_EVENT.json" \
+  -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
   -i $CONTAINER_NAME
 
@@ -131,7 +135,7 @@ function setup() {
   -v "$(pwd):/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="true" \
-  -e GITHUB_EVENT_PATH="/mnt/tests/GITHUB_EVENT.json" \
+  -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
   -i $CONTAINER_NAME
 
@@ -151,7 +155,7 @@ function setup() {
   -v "$(pwd):/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="0" \
-  -e GITHUB_EVENT_PATH="/mnt/tests/GITHUB_EVENT.json" \
+  -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
   -i $CONTAINER_NAME
 
@@ -171,7 +175,7 @@ function setup() {
   -v "$(pwd):/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="false" \
-  -e GITHUB_EVENT_PATH="/mnt/tests/GITHUB_EVENT.json" \
+  -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
   -i $CONTAINER_NAME
 
@@ -192,7 +196,7 @@ function setup() {
   -v "$(pwd):/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="" \
-  -e GITHUB_EVENT_PATH="/mnt/tests/GITHUB_EVENT.json" \
+  -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
   -i $CONTAINER_NAME
 
@@ -211,7 +215,7 @@ function setup() {
   run docker run --rm \
   -v "$(pwd):/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
-  -e GITHUB_EVENT_PATH="/mnt/tests/GITHUB_EVENT.json" \
+  -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
   -i $CONTAINER_NAME
 

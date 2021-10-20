@@ -35,3 +35,4 @@ jobs:
       uses: ./
       with:
         yamllint_file_or_dir: "./tests/data/single_files/file2.yml"
+        yamllint_comment: true

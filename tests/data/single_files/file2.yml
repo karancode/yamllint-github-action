@@ -10,7 +10,7 @@ spec:
         matchLabels:
             app.kubernetes.io/instance: karma
     namespaceSelector:
-        matchNames:
+    matchNames:
             - monitoring
     endpoints:
-        - path: /alerts/metrics
+  - path: /alerts/metrics

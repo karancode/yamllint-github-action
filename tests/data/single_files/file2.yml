@@ -7,10 +7,10 @@ metadata:
 spec:
     jobLabel: karma
     selector:
-        matchLabels:
-            app.kubernetes.io/instance: karma
+     matchLabels:
+        app.kubernetes.io/instance: karma
     namespaceSelector:
     matchNames:
-            - monitoring
+    - monitoring
     endpoints:
-  - path: /alerts/metrics
+    - path: /alerts/metrics

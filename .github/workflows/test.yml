@@ -25,11 +25,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install bats
-      run: sudo apt-get -y install bats > /dev/null
+#     - name: Install bats
+#       run: sudo apt-get -y install bats > /dev/null
 
-    - name: Run CI script
-      run: ./tests/run.bats
+#     - name: Run CI script
+#       run: ./tests/run.bats
 
     - name: Run action
       uses: ./

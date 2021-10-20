@@ -68,3 +68,4 @@ Secrets are similar to inputs except that they are encrypted and only used by Gi
 
 For testing the [bats](https://github.com/bats-core/bats-core) testing framework is used.
 Tests can be run with ``./tests/run.bats`` but first you need to install [bats](https://github.com/bats-core/bats-core#installation).
+test

@@ -1,3 +1,4 @@
+---
 name: "Continuous Integration"
 on:
   push:
@@ -23,15 +24,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Install bats
-      run: sudo apt-get -y install bats > /dev/null
+      - name: Install bats
+        run: sudo apt-get -y install bats > /dev/null
 
-    - name: Run CI script
-      run: ./tests/run.bats
+      - name: Run CI script
+        run: ./tests/run.bats
 
-    - name: Run action
-      uses: ./
-      with:
-        yamllint_file_or_dir: "./tests/data/single_files/file2.yml"
+      - name: Run action
+        uses: ./
+        with:
+          yamllint_file_or_dir: "./tests/data/single_files/file2.yml"

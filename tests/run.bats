@@ -70,10 +70,10 @@ function setup() {
 }
 
 ## folder
-@test "INPUT_YAMLLINT_FILE_OR_DIR: nestet_folder with one errors" {
+@test "INPUT_YAMLLINT_FILE_OR_DIR: nested_folder with one errors" {
   run docker run --rm \
   -v "$(pwd):/mnt/" \
-  -e INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/nestet_folder" \
+  -e INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/nested_folder" \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"

@@ -1,3 +1,4 @@
+---
 name: "Continuous Integration"
 on:
   push:
@@ -7,31 +8,15 @@ on:
     - cron: '22 22 * * 5'
 
 jobs:
-  lint:
-    runs-on: 'ubuntu-latest'
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Markdown Lint
-        uses: actionshub/markdownlint@v1.0.0
-
-      - name: Dockerfile Lint
-        uses: burdzwastaken/hadolint-action@1.6.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HADOLINT_ACTION_DOCKERFILE_FOLDER: .
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Install bats
-      run: sudo apt-get -y install bats > /dev/null
-
-    - name: Run CI script
-      run: ./tests/run.bats
-
-    - name: Run action
-      uses: ./
-      with:
-        yamllint_file_or_dir: "./tests/data/single_files/file2.yml"
+      - uses: actions/checkout@v2
+      - name: Install bats
+        run: sudo apt-get -y install bats > /dev/null
+      - name: Run CI script
+        run: ./tests/run.bats
+      - name: Run action
+        uses: ./
+        with:
+          yamllint_file_or_dir: "./tests/data/single_files/file2.yml"

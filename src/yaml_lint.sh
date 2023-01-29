@@ -42,7 +42,7 @@ ${lint_output}
         echo "${lint_payload}" | curl -s -S -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" --header "Content-Type: application/json" --data @- "${lint_comment_url}" > /dev/null
     fi
 
-    echo ::set-output name=yamllint_output::${lint_output}
+    echo "yamllint_output=${lint_output}" >> $GITHUB_OUTPUT
     exit ${lint_exit_code}
 }
 

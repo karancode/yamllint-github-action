@@ -33,6 +33,9 @@ function setup() {
   unset INPUT_YAMLLINT_CONFIG_DATAPATH
   unset INPUT_YAMLLINT_FORMAT
   unset INPUT_YAMLLINT_COMMENT
+  export ROOT_DIR="${ROOT_DIR:-$(pwd)}"
+  export GITHUB_OUTPUT_FILE="${GITHUB_OUTPUT_FILE:-$(mktemp -p "${BATS_TMPDIR}")}"
+  cp /dev/null "${GITHUB_OUTPUT_FILE}"
 }
 
 ## INPUT_YAMLLINT_FILE_OR_DIR #################################################
@@ -43,8 +46,10 @@ function setup() {
   INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file2.yml"
 
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
@@ -56,8 +61,10 @@ function setup() {
   INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file1.yml"
 
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
@@ -65,15 +72,19 @@ function setup() {
   echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
   echo $output | grep -q "lint: error: failed yamllint on"
   echo $output | grep -q "line too long (114 > 80 characters)"
-  echo $output | grep -q "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
+
+  cat ${GITHUB_OUTPUT_FILE} | grep -q "yamllint_output=${INPUT_YAMLLINT_FILE_OR_DIR}"
+
   [[ "${status}" -eq 1 ]]
 }
 
 ## folder
 @test "INPUT_YAMLLINT_FILE_OR_DIR: nested_folder with one errors" {
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/nested_folder" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
@@ -92,19 +103,23 @@ function setup() {
   INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file1.yml"
 
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="1" \
   -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
 
   echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
   echo $output | grep -q "line too long (114 > 80 characters)"
-  echo $output | grep -q "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
   echo $output | grep -q "lint: info: commenting on the pull request"
+
+  cat ${GITHUB_OUTPUT_FILE} | grep -q "yamllint_output=${INPUT_YAMLLINT_FILE_OR_DIR}"
+
   [[ "${status}" -eq 1 ]]
 }
 
@@ -112,19 +127,23 @@ function setup() {
   INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file1.yml"
 
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="true" \
   -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
 
   echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
   echo $output | grep -q "line too long (114 > 80 characters)"
-  echo $output | grep -q "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
   echo $output | grep -q "lint: info: commenting on the pull request"
+
+  cat ${GITHUB_OUTPUT_FILE} | grep -q "yamllint_output=${INPUT_YAMLLINT_FILE_OR_DIR}"
+
   [[ "${status}" -eq 1 ]]
 }
 
@@ -132,18 +151,22 @@ function setup() {
   INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file2.yml"
 
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="true" \
   -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
 
   echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
-  echo $output | grep -vq "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
   echo $output | grep -vq "lint: info: commenting on the pull request"
+
+  cat ${GITHUB_OUTPUT_FILE} | grep -vq "yamllint_output=${INPUT_YAMLLINT_FILE_OR_DIR}"
+
   [[ "${status}" -eq 0 ]]
 }
 
@@ -152,19 +175,23 @@ function setup() {
   INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file1.yml"
 
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="0" \
   -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
 
   echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
   echo $output | grep -q "line too long (114 > 80 characters)"
-  echo $output | grep -q "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
   echo $output | grep -vq "lint: info: commenting on the pull request"
+
+  cat ${GITHUB_OUTPUT_FILE} | grep -q "yamllint_output=${INPUT_YAMLLINT_FILE_OR_DIR}"
+
   [[ "${status}" -eq 1 ]]
 }
 
@@ -172,19 +199,23 @@ function setup() {
   INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file1.yml"
 
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="false" \
   -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
 
   echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
   echo $output | grep -q "line too long (114 > 80 characters)"
-  echo $output | grep -q "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
   echo $output | grep -vq "lint: info: commenting on the pull request"
+
+  cat ${GITHUB_OUTPUT_FILE} | grep -q "yamllint_output=${INPUT_YAMLLINT_FILE_OR_DIR}"
+
   [[ "${status}" -eq 1 ]]
 }
 
@@ -193,19 +224,23 @@ function setup() {
   INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file1.yml"
 
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e INPUT_YAMLLINT_COMMENT="" \
   -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
 
   echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
   echo $output | grep -q "line too long (114 > 80 characters)"
-  echo $output | grep -q "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
   echo $output | grep -vq "lint: info: commenting on the pull request"
+
+  cat ${GITHUB_OUTPUT_FILE} | grep -q "yamllint_output=${INPUT_YAMLLINT_FILE_OR_DIR}"
+
   [[ "${status}" -eq 1 ]]
 }
 
@@ -213,17 +248,21 @@ function setup() {
   INPUT_YAMLLINT_FILE_OR_DIR="/mnt/tests/data/single_files/file1.yml"
 
   run docker run --rm \
-  -v "$(pwd):/mnt/" \
+  -v "${ROOT_DIR}:/mnt/" \
   -e INPUT_YAMLLINT_FILE_OR_DIR="${INPUT_YAMLLINT_FILE_OR_DIR}" \
   -e GITHUB_EVENT_PATH="/tmp/" \
   -e GITHUB_EVENT_NAME="pull_request" \
+  --mount type=bind,source="${GITHUB_OUTPUT_FILE}",target=/github_output \
+  -e GITHUB_OUTPUT=/github_output \
   -i $CONTAINER_NAME
 
   debug "${status}" "${output}" "${lines}"
 
   echo $output | grep -q "$INPUT_YAMLLINT_FILE_OR_DIR"
   echo $output | grep -q "line too long (114 > 80 characters)"
-  echo $output | grep -q "::set-output name=yamllint_output::${INPUT_YAMLLINT_FILE_OR_DIR}"
   echo $output | grep -vq "lint: info: commenting on the pull request"
+
+  cat ${GITHUB_OUTPUT_FILE} | grep -q "yamllint_output=${INPUT_YAMLLINT_FILE_OR_DIR}"
+
   [[ "${status}" -eq 1 ]]
 }

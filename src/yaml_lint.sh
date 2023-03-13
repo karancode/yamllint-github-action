@@ -4,14 +4,14 @@ function yaml_lint {
 
     # gather output
     echo "lint: info: yamllint on ${yamllint_file_or_dir}."
-    lint_output=$(yamllint ${yamllint_strict} ${yamllint_config_filepath} ${yamllint_config_datapath} ${yamllint_format} ${yamllint_file_or_dir})
+    yamllint ${yamllint_strict} ${yamllint_config_filepath} ${yamllint_config_datapath} ${yamllint_format} ${yamllint_file_or_dir} > lint_result.txt
     lint_exit_code=${?}
 
     # exit code 0 - success
     if [ ${lint_exit_code} -eq 0 ];then
         lint_comment_status="Success"
         echo "lint: info: successful yamllint on ${yamllint_file_or_dir}."
-        echo "${lint_output}"
+        cat lint_result.txt
         echo
     fi
 
@@ -19,7 +19,7 @@ function yaml_lint {
     if [ ${lint_exit_code} -ne 0 ]; then
         lint_comment_status="Failed"
         echo "lint: error: failed yamllint on ${yamllint_file_or_dir}."
-        echo "${lint_output}"
+        cat lint_result.txt
         echo
     fi
 
@@ -29,7 +29,7 @@ function yaml_lint {
 <details><summary>Show Output</summary>
 
 \`\`\`
-${lint_output}
+$(cat lint_result.txt)
  \`\`\`
 </details>
 
@@ -42,7 +42,9 @@ ${lint_output}
         echo "${lint_payload}" | curl -s -S -H "Authorization: token ${GITHUB_ACCESS_TOKEN}" --header "Content-Type: application/json" --data @- "${lint_comment_url}" > /dev/null
     fi
 
-    echo "yamllint_output=${lint_output}" >> $GITHUB_OUTPUT
+    echo "yamllint_output<<EOF" >> "$GITHUB_OUTPUT"
+    cat lint_result.txt >> "$GITHUB_OUTPUT"
+    echo "EOF" >> "$GITHUB_OUTPUT"
     exit ${lint_exit_code}
 }
 

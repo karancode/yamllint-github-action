@@ -1,6 +1,6 @@
 ---
 name: linting
-on:
+"on":
   push:
     branches:
     - master

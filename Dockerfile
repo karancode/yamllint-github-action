@@ -1,4 +1,4 @@
-FROM python:3.12.04b-alpine3.18
+FROM python:3.12.0b4-alpine3.18
 
 # hadolint ignore=DL3018
 RUN apk add --update --no-cache bash ca-certificates curl git jq openssh

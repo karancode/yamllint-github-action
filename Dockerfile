@@ -1,10 +1,10 @@
-FROM python:3.11-alpine
+FROM python:3.17-alpine
 
 # hadolint ignore=DL3018
 RUN apk add --update --no-cache bash ca-certificates curl git jq openssh
 
 # hadolint ignore=DL3013
-RUN pip install yamllint
+RUN pip install yamllint==5.3.1
 
 RUN ["bin/sh", "-c", "mkdir -p /src"]
 

@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Markdown Lint
-        uses: actionshub/markdownlint@v1.0.0
+        uses: actionshub/markdownlint@v3.1.4
 
   Dockerfilelint:
     runs-on: 'ubuntu-latest'
